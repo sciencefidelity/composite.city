@@ -1,0 +1,13 @@
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+pnpm-lock.yml
+
+node_modules
+
+build
+public
+.env
+cypress
+prisma
+tailwind.css
