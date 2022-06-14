@@ -1,0 +1,26 @@
+{
+  "name": "composite.city",
+  "version": "0.1.0",
+  "description": "Build an internet city",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sciencefidelity/composite.city.git"
+  },
+  "keywords": [
+    "Remix"
+  ],
+  "author": "Matt Cook <matt@sciencefidelity.co.uk>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/sciencefidelity/composite.city/issues"
+  },
+  "homepage": "https://github.com/sciencefidelity/composite.city#readme",
+  "devDependencies": {
+    "eslint": "^8.17.0",
+    "typescript": "^4.7.3"
+  }
+}
