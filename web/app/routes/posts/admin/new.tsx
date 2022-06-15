@@ -1,13 +1,67 @@
-import { Form } from "@remix-run/react"
+import type { ActionFunction } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
+import { Form, useActionData } from "@remix-run/react"
+import invariant from "tiny-invariant"
+
+import { createPost } from "~/models/post.server"
+
+type ActionData =
+  | {
+      title: null | String
+      slug: null | String
+      markdown: null | String
+    }
+  | undefined;
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData()
+
+  const title = formData.get("title")
+  const slug = formData.get("slug")
+  const markdown = formData.get("markdown")
+
+  const errors: ActionData = {
+    title: title ? null : "Title is required",
+    slug: slug ? null : "Slug is required",
+    markdown: markdown ? null : "markdown is required"
+  }
+  const hasErrors = Object.values(errors).some(
+    (errorMessage) => errorMessage
+  )
+  if (hasErrors) {
+    return json<ActionData>(errors)
+  }
+
+  invariant(
+    typeof title === "string",
+    "title must be a string"
+  )
+  invariant(
+    typeof slug === "string",
+    "slug must be a string"
+  )
+  invariant(
+    typeof markdown === "string",
+    "markdown must be a string"
+  )
+
+  await createPost({ title, slug, markdown })
+
+  return redirect("/posts/admin")
+}
 
 const inputClassName = "w-full rounded border border-gray-500 px-2 py-1 text-lg"
 
 export default function NewPost() {
+  const errors = useActionData()
+
   return (
     <Form method="post">
       <p>
         <label>
           Post Title:{" "}
+          {errors?.title ? (
+            <em className="text-red-600">{errors.title}</em>
+          ) : null}
           <input
             type="text"
             name="title"
@@ -18,6 +72,9 @@ export default function NewPost() {
       <p>
         <label>
           Post Slug:{" "}
+          {errors?.slug ? (
+            <em className="text-red-600">{errors.slug}</em>
+          ) : null}
           <input
             type="text"
             name="slug"
@@ -26,7 +83,12 @@ export default function NewPost() {
         </label>
       </p>
       <p>
-        <label htmlFor="markdown">Markdown:</label>
+        <label htmlFor="markdown">
+          Markdown:{" "}
+          {errors?.markdown ? (
+            <em className="text-red-600">{errors.markdown}</em>
+          ) : null}
+        </label>
         <br />
         <textarea
           id="markdown"
