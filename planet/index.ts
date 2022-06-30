@@ -7,27 +7,35 @@ const prisma = new PrismaClient()
 //   console.log(allUsers)
 // }
 
-async function main() {
-  await prisma.user.create({
-    data: {
-      name: "Alice",
-      email: "alice@prisma.io",
-      posts: {
-        create: { title: "Hello World" }
-      },
-      profile: {
-        create: { bio: "I like turtles" }
-      }
-    }
-  })
+// async function main() {
+//   await prisma.user.create({
+//     data: {
+//       name: "Alice",
+//       email: "alice@prisma.io",
+//       posts: {
+//         create: { title: "Hello World" },
+//       },
+//       profile: {
+//         create: { bio: "I like turtles" },
+//       },
+//     },
+//   })
 
-  const allUsers = await prisma.user.findMany({
-    include: {
-      posts: true,
-      profile: true
-    }
+//   const allUsers = await prisma.user.findMany({
+//     include: {
+//       posts: true,
+//       profile: true,
+//     },
+//   })
+//   console.dir(allUsers, { depth: null })
+// }
+
+async function main() {
+  const post = await prisma.post.update({
+    where: { id: 1 },
+    data: { published: true }
   })
-  console.dir(allUsers, { depth: null })
+  console.log(post)
 }
 
 main()
