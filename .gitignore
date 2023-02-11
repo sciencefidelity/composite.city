@@ -15,4 +15,5 @@ cypress
 prisma
 tailwind.css
 .local
+.DS_Store
 
